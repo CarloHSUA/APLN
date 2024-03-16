@@ -1,3 +1,7 @@
 numpy
 pytorch 
 faiss-gpu
+pandas
+transformers
+packaging
+datasets
