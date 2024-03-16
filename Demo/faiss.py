@@ -1,7 +1,7 @@
 import numpy as np
 import faiss
 filename = 'test2dpoints.index'
-load_file = True
+load_file = False
 
 query = np.expand_dims(np.array([-1,-1]), axis=0)
 corpus = np.array([[0,0],
