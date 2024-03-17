@@ -1,8 +1,11 @@
 numpy
-pytorch 
+torch 
 faiss-gpu; sys_platform == 'Linux'
 faiss-cpu; sys_platform == 'win32'
 pandas
 transformers
 packaging
 datasets
+gensim
+nltk
+wordcloud
