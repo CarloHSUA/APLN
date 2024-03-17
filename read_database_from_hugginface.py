@@ -4,8 +4,12 @@ from faiss import write_index
 import numpy as np
 import pandas as pd
 import torch
-from transformers import AutoTokenizer, AutoModel
+from transformers import AutoTokenizer, AutoModel, BertForQuestionAnswering
 from torch.utils.data import DataLoader
+
+from faiss_wrapper import FaissWrapper
+from model.sentence_model import SencenceModel
+
 
 
 from datasets import load_dataset
@@ -14,26 +18,44 @@ from datasets import load_dataset
 DEVICE = 'cuda:0' if torch.cuda.is_available() else 'cpu'
 dataset = {}
 
+
+# 'google-bert/bert-large-uncased-whole-word-masking-finetuned-squad'
+# tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased')
+# model = AutoModel.from_pretrained('bert-base-uncased').to(DEVICE)
+
+model = SencenceModel(device = DEVICE)
+
+dataset = load_dataset("glnmario/news-qa-summarization", split="train")
+faiss = FaissWrapper('./prueba.index')
+
+
 # Read data base from huggingface
 def read_data():
-    # TODO: glnmario/news-qa-summarization
-    '''
-    tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased')
-    model = AutoModel.from_pretrained('bert-base-uncased').to(DEVICE)
-    '''
-    dataset = load_dataset("glnmario/news-qa-summarization", split="train")
-    print(dataset[0]['questions'])
-    print('\n')
-    print(dataset[0]['story'])
+    global dataset
+    # Tokenize text
 
-    # dataset.set_format(type="torch", columns=["story", "questions"])
-    print(dataset)
-    dataloader = DataLoader(dataset, batch_size=64)
-    d = next(iter(dataloader))
-    print(d)
-    for data in dataloader:
-        print(data)
+    # dataset = dataset.map(
+    #     lambda element: model.tokenizer(element['story'], padding=True, truncation=True),
+    #     batched=True,
+    #     batch_size=1
+    #     )   
+
+    dataset_tokenized = dataset.remove_columns(['answers', 'summary', 'questions'])# , 'story'])
+    dataset_tokenized.set_format("torch")
+
+    dataloader = DataLoader(dataset_tokenized, batch_size=4)
+
+        
+    for idx, batch in enumerate(dataloader):
+        # batch = {key: value.to(DEVICE) for key, value in batch.items()}  # Mover los tensores al dispositivo CUDA
+        # print(batch['story'])
+        embeddings = model.calculate_embedding(batch['story'])
+        print(embeddings)
+        # print(batch, model(**batch))
+        # prediction = model(**batch) # bacth x doc x cada token del doc
+        # faiss.add_embeddings()
         break
+        
 
 
 def get_data_chunks():
