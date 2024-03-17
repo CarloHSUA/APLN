@@ -1,1 +1,9 @@
+# Ignore virtual environments
 .venv/*
+
+# Ignore Python cache files
+*.pyc
+
+# Ignore generated files by the application
+*.csv
+*.index
