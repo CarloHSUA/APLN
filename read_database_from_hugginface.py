@@ -6,9 +6,12 @@ import pandas as pd
 import torch
 from transformers import AutoTokenizer, AutoModel, BertForQuestionAnswering
 from torch.utils.data import DataLoader
+from rich import print
+from tqdm import tqdm
 
 from faiss_wrapper import FaissWrapper
 from model.sentence_model import SencenceModel
+# from preprocess_dataset import load_corupus_dataset
 
 
 
@@ -19,56 +22,52 @@ DEVICE = 'cuda:0' if torch.cuda.is_available() else 'cpu'
 dataset = {}
 
 
-# 'google-bert/bert-large-uncased-whole-word-masking-finetuned-squad'
-# tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased')
-# model = AutoModel.from_pretrained('bert-base-uncased').to(DEVICE)
-
 model = SencenceModel(device = DEVICE)
 
 dataset = load_dataset("glnmario/news-qa-summarization", split="train")
-faiss = FaissWrapper('./prueba.index')
+faiss_db = FaissWrapper('prueba.index')
 
 
 # Read data base from huggingface
 def read_data():
     global dataset
-    # Tokenize text
 
-    # dataset = dataset.map(
-    #     lambda element: model.tokenizer(element['story'], padding=True, truncation=True),
-    #     batched=True,
-    #     batch_size=1
-    #     )   
-
-    dataset_tokenized = dataset.remove_columns(['answers', 'summary', 'questions'])# , 'story'])
+    dataset_tokenized = dataset.remove_columns(['answers', 'summary', 'questions'])
     dataset_tokenized.set_format("torch")
 
-    dataloader = DataLoader(dataset_tokenized, batch_size=4)
 
-        
-    for idx, batch in enumerate(dataloader):
-        # batch = {key: value.to(DEVICE) for key, value in batch.items()}  # Mover los tensores al dispositivo CUDA
-        # print(batch['story'])
-        embeddings = model.calculate_embedding(batch['story'])
-        print(embeddings)
-        # print(batch, model(**batch))
-        # prediction = model(**batch) # bacth x doc x cada token del doc
-        # faiss.add_embeddings()
-        break
+    dataloader = DataLoader(dataset_tokenized, batch_size=1)
+    sentence_list = []
+
+
+    for idx, batch in tqdm(enumerate(dataloader), ncols=60, desc="Procesando elementos"):
+        document = model.nlp(batch['story'][0])
+        sentences = list(map(lambda e: str(e), document.sents))
+        embeddings = model.calculate_embedding(sentences)
         
 
+        for sentence_idx, sentence in enumerate(list(document.sents)):
+            new_row = {}
+            new_row['doc_index'] = idx
+            new_row['index'] = len(sentence_list) + 1
+            new_row['sentence'] = sentence
+            new_row['embeddings'] = str(embeddings[sentence_idx].cpu().numpy()).replace('\n', '')
+            sentence_list.append(new_row)
+        
 
-def get_data_chunks():
 
-    for data in dataset:
-        pass
+    sentence_dataset = pd.DataFrame(sentence_list, columns=['doc_index', 'index', 'sentence', 'embeddings'])
+    sentence_dataset.to_csv('sentence_dataset.csv')
+        
 
-def tokenize_dataset(tokenizer, model):
-    # Tokenize the story column
-    for data in dataset:
-        inputs = tokenizer(data['story'], return_tensors='pt', truncation=True, padding=True, max_length=512).to(DEVICE)
-        with torch.no_grad():
-            outputs = model(**inputs)
+
+def write_on_faiss():
+    data = pd.read_csv('sentence_dataset.csv')
+    faiss_db.add_embeddings(data)
+
+    if faiss_db.save_to_disk():
+        print("The data is saved correctly")
+    
 
 
 if __name__ == '__main__':
@@ -77,6 +76,5 @@ if __name__ == '__main__':
     # tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased')
     # model = AutoModel.from_pretrained('bert-base-uncased').to(DEVICE)
 
-    # tokenize_dataset(tokenizer, model)
 
 

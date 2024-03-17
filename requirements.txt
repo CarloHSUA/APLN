@@ -6,6 +6,10 @@ pandas
 transformers
 packaging
 datasets
+<<<<<<< HEAD
 gensim
 nltk
 wordcloud
+=======
+spacy
+>>>>>>> 5cb388cc8cca885373851e6a6824cc34f40a5ffc

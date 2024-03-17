@@ -1,2 +1,10 @@
+# Ignore virtual environments
 .venv/*
-wordclouds/
+
+# Ignore Python cache files
+*.pyc
+
+# Ignore generated files by the application
+*.csv
+*.index
+wordclouds/*
