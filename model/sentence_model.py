@@ -3,16 +3,15 @@ import torch
 import torch.nn.functional as F
 import spacy  # Reconocimiento de entidades
 
-# Instalamos el modelo en inglés de SpaCy
-spacy.cli.download('en_core_web_sm')
-
 class SencenceModel():
     def __init__(self, device) -> None:
         # Load model from HuggingFace Hub
         self.tokenizer = AutoTokenizer.from_pretrained('sentence-transformers/all-mpnet-base-v2')
         self.model = AutoModel.from_pretrained('sentence-transformers/all-mpnet-base-v2').to(device)
         self.device = device
-        spacy.cli.download('en_core_web_sm')
+        if not spacy.util.is_package("en_core_web_sm"):
+            # We download English model for Spacy
+            spacy.cli.download('en_core_web_sm')
         self.nlp = spacy.load('en_core_web_sm')
 
 
