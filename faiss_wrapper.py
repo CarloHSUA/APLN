@@ -18,7 +18,7 @@ class FaissWrapper():
     def add_embeddings_with_ids(self, x, ids):
         '''Adds data embeddings with their respective ids'''
         if self.faiss_db is None:
-            self.faiss_db = faiss.IndexFlatL2(len(x[0]))
+            self.faiss_db = faiss.IndexIDMap(faiss.IndexFlatL2(x.shape[1]))
 
         self.faiss_db.add_with_ids(x=x, ids=ids)
 

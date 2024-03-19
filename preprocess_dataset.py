@@ -68,6 +68,7 @@ class Dataset:
 
     def load_sentences_from_disk(self):
         self.sentence_dataset = pd.read_csv(self.sentences_filename)
+        self.sentence_dataset['embeddings'] = pd.Series()
 
     def save_sentences_to_disk(self):
         self.sentence_dataset[['doc_index', 'index', 'sentence']].to_csv(self.sentences_filename)
@@ -92,7 +93,7 @@ class Dataset:
                     new_row = {}
                     new_row['doc_index'] = row['index']
                     new_row['sentence'] = sentence
-                    new_row['embeddings'] = None if not generate_embeddings else embeddings[sentence_idx]
+                    new_row['embeddings'] = None if not generate_embeddings else embeddings[sentence_idx].cpu().numpy()
                     sentence_list.append(new_row)
                 pbar.update(1)
 
@@ -118,12 +119,9 @@ class Dataset:
             pbar.close()
 
 if __name__ == "__main__":
-    dataset = Dataset(reload = False, save_datasets = False, verbose = 1, generate_embeddings = True)
+    dataset = Dataset(reload = False, save_datasets = False, verbose = 1, generate_embeddings = False)
     index = FaissWrapper("cnn_news.index")
     if index.faiss_db is None:
         dataset.generate_embeddings()
-        index.add_embeddings_with_ids(dataset.sentence_dataset['embeddings'].to_numpy(), dataset.sentence_dataset['index'].to_numpy())
+        index.add_embeddings_with_ids(np.vstack(dataset.sentence_dataset['embeddings']), dataset.sentence_dataset['index'])
         index.save_to_disk()
-
-    while True:
-        pass
