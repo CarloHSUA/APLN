@@ -7,3 +7,4 @@
 # Ignore generated files by the application
 *.csv
 *.index
+wordclouds/*
