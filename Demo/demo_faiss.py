@@ -28,4 +28,6 @@ else:
 
 D, I = faiss_db.search(query, k=3)
 
+print(faiss_db.reconstruct(2))
+
 print("D", D, "\nI", I)

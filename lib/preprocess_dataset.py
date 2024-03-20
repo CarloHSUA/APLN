@@ -6,7 +6,7 @@ from tqdm import tqdm
 from datasets import load_dataset
 from model.sentence_model import SencenceModel
 import torch
-from faiss_wrapper import FaissWrapper
+from lib.faiss_wrapper import FaissWrapper
 
 DEVICE = 'cuda:0' if torch.cuda.is_available() else 'cpu'
 print("DEVICE: ", DEVICE)
@@ -16,8 +16,8 @@ class Dataset:
         self.reload = reload
         self.save_datasets = save_datasets
         self.verbose = verbose
-        self.corpus_filename = 'source_dataset.csv'
-        self.sentences_filename = 'sentence_dataset.csv'
+        self.corpus_filename = f'.{os.sep}data{os.sep}source_dataset.csv'
+        self.sentences_filename = f'.{os.sep}data{os.sep}sentence_dataset.csv'
         self.corpus_dataset = None
         self.sentence_dataset = None
         self.get_corpus_dataset()
@@ -36,6 +36,7 @@ class Dataset:
 
     def get_corpus_dataset(self):
         # Loads corpus dataset
+        print("Exixt: ", os.path.isfile(self.corpus_filename))
         if self.reload or not os.path.isfile(self.corpus_filename):
             self.load_corpus(['index', 'story'])
             if self.verbose > 0:
@@ -74,10 +75,6 @@ class Dataset:
         self.sentence_dataset[['doc_index', 'index', 'sentence']].to_csv(self.sentences_filename)
 
     def process_sentences(self, generate_embeddings = True):
-        if not spacy.util.is_package("en_core_web_sm"):
-            # We download English model for Spacy
-            spacy.cli.download('en_core_web_sm')
-        nlp = spacy.load('en_core_web_sm')
 
         sentence_list = []
         with tqdm(total=len(self.corpus_dataset), desc="Processing documents to sentences") as pbar:
@@ -85,7 +82,7 @@ class Dataset:
                 model = SencenceModel(device = DEVICE)
 
             def split_into_sentences(row):
-                document = nlp(row['story'])
+                document = model.nlp(row['story'])
                 if generate_embeddings:
                     embeddings = model.calculate_embedding(list(map(lambda e: str(e), document.sents)))
 
@@ -120,8 +117,8 @@ class Dataset:
 
 if __name__ == "__main__":
     dataset = Dataset(reload = False, save_datasets = False, verbose = 1, generate_embeddings = False)
-    index = FaissWrapper("cnn_news.index")
-    if index.faiss_db is None:
-        dataset.generate_embeddings()
-        index.add_embeddings_with_ids(np.vstack(dataset.sentence_dataset['embeddings']), dataset.sentence_dataset['index'])
-        index.save_to_disk()
+    # index = FaissWrapper("cnn_news.index")
+    # if index.faiss_db is None:
+    #     dataset.generate_embeddings()
+    #     index.add_embeddings_with_ids(np.vstack(dataset.sentence_dataset['embeddings']), dataset.sentence_dataset['index'])
+    #     index.save_to_disk()
