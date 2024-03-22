@@ -1,5 +1,6 @@
 import faiss
 import os
+from model.sentence_model import SencenceModel
 
 class FaissWrapper():
     def __init__(self, filename) -> None:
@@ -7,7 +8,7 @@ class FaissWrapper():
         self.faiss_db = None
         if os.path.isfile(filename):
             self.faiss_db = faiss.read_index(filename)
-
+        
     def add_embeddings(self, x) -> None:
         '''Adds new embeddings auto calculating their indexes'''
         if self.faiss_db is None:
