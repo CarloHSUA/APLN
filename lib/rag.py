@@ -26,10 +26,12 @@ class RAG:
         with tqdm(total=len(self.dataset.corpus_dataset), desc="Processing documents") as pbar:
             for i in range(0, len(self.dataset.corpus_dataset), batch_size):
                 batch = self.dataset.corpus_dataset.iloc[i : i + batch_size]
-                embeddings = self.model.calculate_embedding(batch['summary'].to_numpy().astype(str))
-                self.faiss.add_embeddings_with_ids(embeddings, batch['index'].to_numpy())
                 
-            pbar.update(len(batch))
+                # embeddings = self.model.calculate_embedding(batch['summary'].to_numpy().astype(str))
+                embeddings = self.model.calculate_embedding(list(batch['summary']))
+                self.faiss.add_embeddings_with_ids(embeddings.cpu().numpy(), batch['index'].to_numpy())
+                
+                pbar.update(len(batch))
 
         self.faiss.save_to_disk()
 

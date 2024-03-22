@@ -35,3 +35,11 @@ class SencenceModel():
         # Normalize embeddings
         return F.normalize(sentence_embeddings, p=2, dim=1)
 
+
+
+if __name__ == '__main__':
+    model = SencenceModel(device = 'cpu')
+    query = "Where were they being deployed to?"
+    embeddings = model.calculate_embedding([query])[0]
+    print(embeddings)
+    
