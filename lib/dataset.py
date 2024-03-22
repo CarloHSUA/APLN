@@ -12,6 +12,8 @@ class CorpusReader:
         self.get_corpus_dataset()
 
     def load_corpus(self, columns):
+        if self.verbose > 0:
+            print("Downloading dataset")
         hf_dataset = load_dataset("glnmario/news-qa-summarization", split='train')
         if self.verbose > 0:
             print("Downloaded dataset")

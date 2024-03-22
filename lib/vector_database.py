@@ -3,11 +3,14 @@ import os
 from model.sentence_model import SencenceModel
 
 class FaissWrapper():
-    def __init__(self, filename) -> None:
+    def __init__(self, filename, verbose = 0) -> None:
         self.filename = filename
+        self.verbose = verbose
         self.faiss_db = None
         if os.path.isfile(filename):
             self.faiss_db = faiss.read_index(filename)
+            if self.verbose > 0:
+                print(f"Loaded Faiss index from {filename}")
         
     def add_embeddings(self, x) -> None:
         '''Adds new embeddings auto calculating their indexes'''
@@ -26,6 +29,8 @@ class FaissWrapper():
     def save_to_disk(self) -> bool:
         if self.filename != "":
             faiss.write_index(self.faiss_db, self.filename)
+            if self.verbose > 0:
+                print(f"Wrote index to {self.filename}")
             return True
         return False
 
