@@ -25,7 +25,7 @@ class CorpusReader:
 
     def get_corpus_dataset(self):
         if self.reload or not os.path.isfile(self.corpus_filename):
-            self.load_corpus(['index', 'summary'])
+            self.load_corpus(['index', 'story', 'summary'])
             if self.verbose > 0:
                     print("Loaded documents from Hugging Face")
             self.save_corpus_to_disk()

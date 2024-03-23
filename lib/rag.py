@@ -40,7 +40,7 @@ class RAG:
 
         embedding_query = self.model.calculate_embedding([query]).cpu().numpy()
         D, I = self.faiss.query(embedding_query, k)
-        return D, I
+        return D, I[0]
     
     def retrieve(self, ids, columns = ['story','summary']):
-        return self.dataset.iloc[ids][columns]
+        return self.dataset.corpus_dataset.iloc[ids][columns]
