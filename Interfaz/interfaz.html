@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question - Answer</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div id="chat" class="chat"></div>
+        <form id="input" class="input">
+            <input type="text" id="question" placeholder="Escribe tu pregunta...">
+            <input type="submit" value="Enviar">
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('input').addEventListener('submit', function(e) {
+            e.preventDefault();
+            var question = document.getElementById('question').value;
+            if (question.trim() === '') return;
+            addQuestion(question);
+            getResponse(question);
+            document.getElementById('question').value = '';
+        });
+
+        function addQuestion(question) {
+            var chat = document.getElementById('chat');
+            var questionDiv = document.createElement('div');
+            questionDiv.innerHTML = '<strong>Pregunta:</strong> ' + question;
+            chat.appendChild(questionDiv);
+            chat.scrollTop = chat.scrollHeight;
+        }
+
+        function addResponse(response) {
+            var chatArea = document.getElementById('chat');
+            var responseDiv = document.createElement('div');
+            responseDiv.innerHTML = '<strong>Respuesta:</strong> ' + response;
+            chatArea.appendChild(responseDiv);
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+
+        function getResponse(question) {
+            var response = "Respuesta de ejemplo";
+            addResponse(response);
+        }
+    </script>
+
+</body>
+
+</html>
