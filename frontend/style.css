@@ -6,7 +6,7 @@ body {
 }
 
 .container {
-    max-width: 600px;
+    max-width: 60vw;
     margin: 50px auto;
     background-color: #fff;
     border-radius: 10px;
@@ -15,12 +15,16 @@ body {
 }
 
 #chat {
-    height: 300px;
+    height: 75vh;
     overflow-y: scroll;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
     margin-bottom: 10px;
+}
+
+#chat > div{
+    margin: 20px 15px;
 }
 
 #input {
