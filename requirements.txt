@@ -1,6 +1,6 @@
 numpy
-torch 
-faiss-gpu; sys_platform == 'Linux'
+torch
+faiss-gpu; sys_platform == 'linux-64'
 faiss-cpu; sys_platform == 'win32'
 pandas
 transformers
@@ -10,3 +10,8 @@ gensim
 nltk
 wordcloud
 spacy
+rich
+
+# Backend
+fastapi
+'uvicorn[standard]'

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question - Answer</title>
+    <!-- <link rel="stylesheet" type="text/css" href="style"> -->
+</head>
+
+<body>
+    <div class="container">
+        <div id="chat" class="chat"></div>
+        <form id="input" class="input">
+            <input type="text" id="question" placeholder="Escribe tu pregunta...">
+            <input type="submit" value="Enviar">
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('input').addEventListener('submit', function(e) {
+            e.preventDefault();
+            var question = document.getElementById('question').value;
+            if (question.trim() === '') return;
+            addQuestion(question);
+            getResponse(question);
+            document.getElementById('question').value = '';
+        });
+
+        function addQuestion(question) {
+            var chat = document.getElementById('chat');
+            var questionDiv = document.createElement('div');
+            questionDiv.innerHTML = '<strong>You:</strong> ' + question;
+            chat.appendChild(questionDiv);
+            chat.scrollTop = chat.scrollHeight;
+        }
+
+        function addResponse(response) {
+            var chatArea = document.getElementById('chat');
+            var responseDiv = document.createElement('div');
+            responseDiv.innerHTML = '<strong>CNN Bot:</strong> ' + response;
+            chatArea.appendChild(responseDiv);
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+
+        function getResponse(question) {
+            // URL a la que se realizará la solicitud GET
+            var url = '/response?query=' + encodeURIComponent(question);
+
+            // Realizar la solicitud GET
+            fetch(url)
+            .then(response => {
+                // Verificar si la solicitud fue exitosa
+                if (!response.ok) {
+                    throw new Error('Error al obtener la respuesta');
+                }
+                // Devolver el cuerpo de la respuesta como texto
+                return response.text();
+            })
+            .then(data => {
+                // Agregar la respuesta al DOM
+                json = JSON.parse(data);
+                addResponse(json['msg']);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+    </script>
+
+</body>
+
+</html>

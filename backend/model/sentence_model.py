@@ -34,4 +34,3 @@ class SencenceModel():
 
         # Normalize embeddings
         return F.normalize(sentence_embeddings, p=2, dim=1)
-
