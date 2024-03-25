@@ -1,5 +1,8 @@
 # APLN
 
+# Prerequisites
+python 3.11
+
 
 # Installation
 ## Ollama   

@@ -11,6 +11,7 @@ nltk
 wordcloud
 spacy
 rich
+nlg-metricverse==0.9.9
 
 # Backend
 fastapi
