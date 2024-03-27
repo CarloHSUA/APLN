@@ -1,6 +1,6 @@
 # APLN
 
-![image](https://miro.medium.com/v2/resize:fit:828/format:webp/1*6gCWNpLy6DW3ArYliIUFcQ.gif)
+![image](./figures/app.webm)
 
 # Resumen
 
@@ -17,7 +17,7 @@ En esta sección se examina la arquitectura empleada en la aplicación, la cual 
 pip install -r requirements.txt
 ```
 
-2. Instalar Ollama [aquí](https://ollama.com/).
+2. Instalar Ollama [aquí](https://ollama.com/) o instalalo directamente desde este comando el Linux.
 ```
 curl -fsSL https://ollama.com/install.sh | sh
 ```
