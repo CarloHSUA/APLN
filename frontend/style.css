@@ -18,22 +18,32 @@ body {
     position: relative;
     height: 75vh;
     overflow-y: scroll;
-    /* padding: 10px; */
     border: 1px solid #ccc;
     border-radius: 5px;
     margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
+
+
+
 
 #chat > div{
     padding: 20px;
+    /* width: 100%; */
 }
 
 #chat > div#user{
     background: rgba(0, 0, 0, 0.05);
+    align-self: self-start;
+    width: calc(100% - 40px);
 }
 
 #chat > div#bot{
     background: rgba(0, 0, 0, 0.1);
+    align-self: self-start;
+    width: calc(100% - 40px);
 }
 
 #input {
@@ -80,8 +90,7 @@ body {
     position: absolute;
     /* top: 0; */
     /* left: 0; */
-    width: 55.5vw;
-    border: 1px solid black;
+    width: 90%;
     padding: 10px;
     bottom: 0;
 }
@@ -89,4 +98,15 @@ body {
 .button {
     position: absolute;
     /* Add your positioning properties here */
+}
+
+.chat-button {
+    border-radius: 4px;
+    padding: 10px 15px;
+    border: 1px solid #e4e4e4;
+}
+
+.chat-button:hover {
+    background-color: #f4f4f4;
+    cursor: pointer;
 }

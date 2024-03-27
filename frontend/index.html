@@ -13,10 +13,10 @@
         <div id="chat" class="chat">
             <div class="chat-container">
                 <div>
-                    <button class="chat-button">Chat1</button>
-                    <button class="chat-button">Chat2</button>
-                    <button class="chat-button">Chat3</button>
-                    <button class="chat-button">Chat4</button>
+                    <button class="chat-button" onclick="questionButton(this.innerHTML)">Who plays the role of "Taliban militants"?</button>
+                    <button class="chat-button" onclick="questionButton(this.innerHTML)" >What is the Taurus 2010?</button>
+                    <button class="chat-button" onclick="questionButton(this.innerHTML)">Which Hyatt properties have low-flow toilets?</button>
+                    <button class="chat-button" onclick="questionButton(this.innerHTML)">Where in Boston can I see jazz, cabaret and burlesque?</button>
                 </div>
             </div>
             <div id="bot"><strong>Bot:</strong> How can I help you today?</div>
@@ -36,6 +36,13 @@
             getResponse(question);
             document.getElementById('question').value = '';
         });
+        
+        function questionButton(question) {
+            var chat = document.getElementsByClassName('chat-container');
+            chat[0].style.display = 'none';
+            addQuestion(question);
+            getResponse(question);
+        }
 
         function addQuestion(question) {
             var chat = document.getElementById('chat');
