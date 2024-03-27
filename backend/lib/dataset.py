@@ -14,14 +14,20 @@ class CorpusReader:
     def load_corpus(self, columns):
         if self.verbose > 0:
             print("Downloading dataset")
-        hf_dataset = load_dataset("glnmario/news-qa-summarization", split='train')
         if self.verbose > 0:
             print("Downloaded dataset")
 
-        self.corpus_dataset = pd.DataFrame.from_dict(hf_dataset)
+        # hf_dataset = load_dataset("glnmario/news-qa-summarization", split='train')
+        # self.corpus_dataset = pd.DataFrame.from_dict(hf_dataset)
         # Creates column index
-        self.corpus_dataset['index'] = np.arange(self.corpus_dataset.shape[0])
-        self.corpus_dataset = self.corpus_dataset[columns]
+        # self.corpus_dataset['index'] = np.arange(self.corpus_dataset.shape[0])
+        # self.corpus_dataset = self.corpus_dataset[columns]
+            
+        print(os.path.exists('./data/data.jsonl'), os.system('ls ./data'))
+        self.corpus_dataset = pd.read_json('./data/data.jsonl', lines=True)
+        self.corpus_dataset['index'] = self.corpus_dataset.index        
+
+        
 
     def get_corpus_dataset(self):
         if self.reload or not os.path.isfile(self.corpus_filename):
