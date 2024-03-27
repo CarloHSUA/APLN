@@ -22,6 +22,7 @@ pip install -r requirements.txt
 curl -fsSL https://ollama.com/install.sh | sh
 ```
 
+3. En el caso de disponer de GPU, se puede instalar para su uso siguiendo el tutorial de la [página oficial de PyTorch](https://pytorch.org/get-started/locally/)
 
 # Ejecución
 Una vez instaladas las dependencias necesarias, podemos ejecutar el siguiente programa.
