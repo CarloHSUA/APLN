@@ -1,6 +1,8 @@
 # APLN
 
-![image](./figures/app.webm)
+![image](https://github.com/CarloHSUA/APLN/assets/99215566/ad2deea5-bbd9-46c1-a767-84069b343c72)
+
+![app (1)](https://github.com/CarloHSUA/APLN/assets/99215566/e76b8c3e-c92a-4ac7-8e21-cec7c0825221)
 
 # Resumen
 
