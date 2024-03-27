@@ -15,16 +15,25 @@ body {
 }
 
 #chat {
+    position: relative;
     height: 75vh;
     overflow-y: scroll;
-    padding: 10px;
+    /* padding: 10px; */
     border: 1px solid #ccc;
     border-radius: 5px;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
 #chat > div{
-    margin: 20px 15px;
+    padding: 20px;
+}
+
+#chat > div#user{
+    background: rgba(0, 0, 0, 0.05);
+}
+
+#chat > div#bot{
+    background: rgba(0, 0, 0, 0.1);
 }
 
 #input {
@@ -38,6 +47,12 @@ body {
     border-radius: 5px 0 0 5px;
 }
 
+#input input[type="text"]:focus {
+    outline: none;
+}
+
+
+
 #input input[type="submit"] {
     padding: 10px 20px;
     background-color: #007bff;
@@ -45,4 +60,33 @@ body {
     color: #fff;
     border-radius: 0 5px 5px 0;
     cursor: pointer;
+}
+
+
+/* chat-container */
+
+/* The chat-container is a grid with four button class with position absolute */
+
+.chat-container > div {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 10px;
+    position: relative;
+}
+
+
+.chat-container{
+    position: absolute;
+    /* top: 0; */
+    /* left: 0; */
+    width: 55.5vw;
+    border: 1px solid black;
+    padding: 10px;
+    bottom: 0;
+}
+
+.button {
+    position: absolute;
+    /* Add your positioning properties here */
 }

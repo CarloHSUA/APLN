@@ -10,7 +10,17 @@
 
 <body>
     <div class="container">
-        <div id="chat" class="chat"></div>
+        <div id="chat" class="chat">
+            <div class="chat-container">
+                <div>
+                    <button class="chat-button">Chat1</button>
+                    <button class="chat-button">Chat2</button>
+                    <button class="chat-button">Chat3</button>
+                    <button class="chat-button">Chat4</button>
+                </div>
+            </div>
+            <div id="bot"><strong>Bot:</strong> How can I help you today?</div>
+        </div>
         <form id="input" class="input">
             <input type="text" id="question" placeholder="Escribe tu pregunta...">
             <input type="submit" value="Enviar">
@@ -30,6 +40,7 @@
         function addQuestion(question) {
             var chat = document.getElementById('chat');
             var questionDiv = document.createElement('div');
+            questionDiv.id = 'user';
             questionDiv.innerHTML = '<strong>You:</strong> ' + question;
             chat.appendChild(questionDiv);
             chat.scrollTop = chat.scrollHeight;
@@ -38,6 +49,7 @@
         function addResponse(response) {
             var chatArea = document.getElementById('chat');
             var responseDiv = document.createElement('div');
+            responseDiv.id = 'bot';
             responseDiv.innerHTML = '<strong>CNN Bot:</strong> ' + response;
             chatArea.appendChild(responseDiv);
             chatArea.scrollTop = chatArea.scrollHeight;

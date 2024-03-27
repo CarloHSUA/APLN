@@ -15,4 +15,5 @@ nlg-metricverse==0.9.9
 
 # Backend
 fastapi
-'uvicorn[standard]'
+uvicorn
+#'uvicorn[standard]'

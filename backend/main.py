@@ -30,4 +30,4 @@ def read_response(query: str):
 
 if __name__ == "__main__":
     import uvicorn
-    os.system("uvicorn --host 0.0.0.0 --port 8000 main:app --reload")
+    os.system("uvicorn --host 127.0.0.1 --port 8000 main:app --reload")
