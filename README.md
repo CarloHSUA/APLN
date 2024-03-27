@@ -18,7 +18,7 @@ En esta sección se examina la arquitectura empleada en la aplicación, la cual 
 pip install -r requirements.txt
 ```
 
-2. Instalar Ollama [aquí](https://ollama.com/) o instalalo directamente desde este comando el Linux.
+2. Instalar Ollama [aquí](https://ollama.com/) o instalalo directamente desde el siguiente comando en Linux.
 ```
 curl -fsSL https://ollama.com/install.sh | sh
 ```
