@@ -43,7 +43,7 @@ En el caso de que el puerto 8000 este en uso, habrá que cambiarlo en el fichero
 
 
 # Estructura del repositorio
-- `backend/` : Se encuentra todos los archivos relacionados con la ejecución de la aplicación del servidor mediante FastAPI.
+- `backend/` : Se encuentra todos los archivos relacionados con la ejecución de la aplicación del servidor mediante FastAPI y ficheros de evaluación de los modelos de generación de texto.
   - `data/` : Carpeta donde se almacenan los ficheros de la base de datos de [Faiss](https://github.com/facebookresearch/faiss) y el dataset [glnmario/news-qa-summarization](https://huggingface.co/datasets/glnmario/news-qa-summarization) de HugginFace.
   - `demo/` : Contiene ficheros de prueba de diferentes modelos.
   - `lib/` : Contiene ficheros con las clases esenciales para cargar, leer y escribir de la base de datos vectorial y del dataset.
